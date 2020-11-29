@@ -40,3 +40,19 @@ firstBlock.square('#02451C');
 let firstCircle = new Block(4,3);
 firstCircle.round('red');
 
+class Snake {
+    constructor() {
+        this.parts = [
+            new Block(7, 4),
+            new Block(6, 4),
+            new Block(5, 4)
+        ];
+    }
+    drawSnake() {
+        for(let i = 0; i < this.parts.length; i++) {
+            this.parts[i].square('#8136a4');
+        }
+    }
+}
+let cobra = new Snake;
+cobra.drawSnake();
