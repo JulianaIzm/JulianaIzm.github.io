@@ -20,4 +20,23 @@ class Block {
         this.col = col;
         this.row = row;
     }
+    square(color) { //рисуем квадратики
+    let x = this.col * blockSize;
+    let y = this.row * blockSize;
+    ctx.fillStyle = color;
+    ctx.fillRect(x, y, blockSize, blockSize);
+    }
+    round(color) {
+        let centerX = this.col * blockSize + blockSize / 2;
+        let centerY = this.row * blockSize + blockSize / 2;
+        let pi = Math.PI;
+        ctx.fillStyle = color;
+        ctx.arc(centerX, centerY, blockSize/2, 0, 2*pi, true);
+        ctx.fill();
+    }
 }
+let firstBlock = new Block(0, 5);
+firstBlock.square('#02451C');
+let firstCircle = new Block(4,3);
+firstCircle.round('red');
+
