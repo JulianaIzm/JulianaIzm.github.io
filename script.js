@@ -15,6 +15,8 @@ function drawScore() {
     ctx.textAlign = 'center';
     ctx.fillStyle = 'Black';
 }
+// drawScore();
+
 class Block {
     constructor(col, row) {
         this.col = col;
@@ -35,10 +37,10 @@ class Block {
         ctx.fill();
     }
 }
-let firstBlock = new Block(0, 5);
+let firstBlock = new Block(0, 0);
 firstBlock.square('#02451C');
-let firstCircle = new Block(4,3);
-firstCircle.round('red');
+// let firstCircle = new Block(4,3);
+// firstCircle.round('red');
 
 class Snake {
     constructor() {
@@ -49,10 +51,27 @@ class Snake {
         ];
     }
     drawSnake() {
-        for(let i = 0; i < this.parts.length; i++) {
+        for (let i = 0; i < this.parts.length; i++) {
             this.parts[i].square('#8136a4');
         }
     }
 }
 let cobra = new Snake;
 cobra.drawSnake();
+
+class Apple {
+    constructor() {
+        this.position = new Block(10, 10);
+    }
+    drawApple() {
+        this.position.round("red");
+    }
+    moveApple() {
+        let randomCol = Math.floor(Math.random() * widthInBlocks);
+        let randomRow = Math.floor(Math.random() * heightInBlocks);
+        this.position = new Block(randomCol, randomRow);
+    }
+}
+let apple = new Apple();
+apple.moveApple();
+apple.drawApple();
