@@ -15,6 +15,7 @@ function drawScore() {
     ctx.textAlign = 'center';
     ctx.fillStyle = 'Black';
 }
+
 // drawScore();
 
 class Block {
@@ -39,8 +40,6 @@ class Block {
 }
 let firstBlock = new Block(0, 0);
 firstBlock.square('#02451C');
-// let firstCircle = new Block(4,3);
-// firstCircle.round('red');
 
 class Snake {
     constructor() {
@@ -55,9 +54,27 @@ class Snake {
             this.parts[i].square('#8136a4');
         }
     }
+    moveSnake() {
+        let head = this.parts[0],
+        newHead;
+        this.direction = this.nextDirection;
+        if (this.direction === "right") {
+            newHead = new Block(head.col + 1, head.row);
+        } else if (this.direction === "down") {
+            newHead = new Block (head.col, head.row + 1);
+        } else if (this.direction === "left") {
+            newHead = new Block(head.col - 1, head.row);
+        } else if (this.direction === "up") {
+            newHead = new Block(head.col, head.row - 1);
+        }
+        this.parts.unshift(newHead);
+    }
+    setDirection(newDirection) {
+        this.nextDirection = newDirection;
+    }
 }
-let cobra = new Snake;
-cobra.drawSnake();
+let serpent = new Snake;
+serpent.drawSnake();
 
 class Apple {
     constructor() {
@@ -75,3 +92,17 @@ class Apple {
 let apple = new Apple();
 apple.moveApple();
 apple.drawApple();
+
+let directions = {
+    37: "left",
+    38: "up",
+    39: "right",
+    40: "down",
+};
+
+document.body.addEventListener("keydown", function (event) {
+    let newDirection = directions[event.keyCode];
+    if (newDirection !== undefined) {
+        serpent.setDirection(newDirection);
+    }
+})
