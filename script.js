@@ -37,9 +37,10 @@ class Block {
         ctx.arc(centerX, centerY, blockSize/2, 0, 2*pi, true);
         ctx.fill();
     }
+    equal(otherBlock) {
+        return this.col === otherBlock.col && this.row === otherBlock.row;
+    }
 }
-let firstBlock = new Block(0, 0);
-firstBlock.square('#02451C');
 
 class Snake {
     constructor() {
@@ -48,10 +49,19 @@ class Snake {
             new Block(6, 4),
             new Block(5, 4)
         ];
+        this.direction = "right",
+        this.nextDirection = "right";
     }
     drawSnake() {
         for (let i = 0; i < this.parts.length; i++) {
-            this.parts[i].square('#8136a4');
+            if (i === 0) {
+                this.parts[i].square('#fff');
+            } else if (i % 2 === 0) {
+                this.parts[i].square('#F1B1A8');
+            } else {
+                this.parts[i].square('#8136a4')
+            }
+            
         }
     }
     moveSnake() {
@@ -68,13 +78,17 @@ class Snake {
             newHead = new Block(head.col, head.row - 1);
         }
         this.parts.unshift(newHead);
+        if (newHead.equal(apple.position)) {
+            score++;
+            apple.moveApple();
+        } else {
+            this.parts.pop();
+        }
     }
     setDirection(newDirection) {
         this.nextDirection = newDirection;
     }
 }
-let serpent = new Snake;
-serpent.drawSnake();
 
 class Apple {
     constructor() {
@@ -89,9 +103,14 @@ class Apple {
         this.position = new Block(randomCol, randomRow);
     }
 }
+let serpent = new Snake();
 let apple = new Apple();
-apple.moveApple();
-apple.drawApple();
+
+let intervalId = setInterval(function () {
+    serpent.drawSnake();
+    serpent.moveSnake();
+    apple.drawApple();
+}, 100);
 
 let directions = {
     37: "left",
