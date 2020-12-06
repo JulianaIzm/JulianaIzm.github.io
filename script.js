@@ -55,9 +55,9 @@ class Snake {
     drawSnake() {
         for (let i = 0; i < this.parts.length; i++) {
             if (i === 0) {
-                this.parts[i].square('#fff');
+                this.parts[i].square('#510977');
             } else if (i % 2 === 0) {
-                this.parts[i].square('#F1B1A8');
+                this.parts[i].square('#ca6cfc');
             } else {
                 this.parts[i].square('#8136a4')
             }
@@ -107,6 +107,7 @@ let serpent = new Snake();
 let apple = new Apple();
 
 let intervalId = setInterval(function () {
+    ctx.clearRect(0, 0, width, height);
     serpent.drawSnake();
     serpent.moveSnake();
     apple.drawApple();
