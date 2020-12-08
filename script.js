@@ -8,8 +8,9 @@ let blockSize = 10;
 let widthInBlocks = width / blockSize;
 let heightInBlocks = height / blockSize;
 let score = 0;
+
 function drawScore() {
-    ctx.textBaseline = 'bottom';
+    ctx.textBaseline = 'top';
     ctx.font = "20px Arial";
     ctx.fillText('Счет: ' + score, blockSize, blockSize);
     ctx.textAlign = 'center';
@@ -40,6 +41,7 @@ class Block {
         let centerX = this.col * blockSize + blockSize / 2;
         let centerY = this.row * blockSize + blockSize / 2;
         let pi = Math.PI;
+        ctx.beginPath();
         ctx.fillStyle = color;
         ctx.arc(centerX, centerY, blockSize/2, 0, 2*pi, true);
         ctx.fill();
@@ -114,7 +116,7 @@ class Snake {
 
 class Apple {
     constructor() {
-        this.position = new Block(10, 10);
+        this.position = new Block(20, 20);
     }
     drawApple() {
         this.position.round("red");
@@ -125,12 +127,13 @@ class Apple {
         this.position = new Block(randomCol, randomRow);
     }
 }
+
 let serpent = new Snake();
 let apple = new Apple();
 
 let intervalId = setInterval(function () {
     ctx.clearRect(0, 0, width, height);
-    drawScore();
+    // drawScore();
     serpent.moveSnake();
     serpent.drawSnake();
     apple.drawApple();
