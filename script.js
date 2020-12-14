@@ -27,12 +27,19 @@ function gameOver() {
 }
 
 const SOUND = {
+    gameAudio: function() {
+        let gameMusic = document.querySelector("#game-music");
+        gameMusic.play();
+    },
     eatAppleAudio: function() {
         let eatApple = document.querySelector("#eat-apple");
         eatApple.play();
     },
-
-}
+    endGameAudio: function() {
+        let endGame = document.querySelector("#game-over");
+        endGame.play();
+    },
+};
 class Block {
     constructor(col, row) {
         this.col = col;
@@ -94,6 +101,7 @@ class Snake {
             newHead = new Block(head.col, head.row - 1);
         }
         if(this.crash(newHead)) {
+            SOUND.endGameAudio();
             gameOver();
             return;
         }
@@ -142,6 +150,7 @@ let apple = new Apple();
 let intervalId = setInterval(function () {
     ctx.clearRect(0, 0, width, height);
     drawScore();
+    SOUND.gameAudio();
     serpent.moveSnake();
     serpent.drawSnake();
     apple.drawApple();
