@@ -10,22 +10,29 @@ let heightInBlocks = height / blockSize;
 let score = 0;
 
 function drawScore() {
-    ctx.textBaseline = 'top';
     ctx.font = "20px Arial";
+    ctx.fillStyle = "white";
+    ctx.textAlign = "left";
+    ctx.textBaseline = "top";
     ctx.fillText('Счет: ' + score, blockSize, blockSize);
-    ctx.textAlign = 'center';
-    ctx.fillStyle = 'black';
 }
 
 function gameOver() {
     clearInterval(intervalId);
     ctx.font = "60px Arial";
-    ctx.fillStyle = "black";
+    ctx.fillStyle = "white";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
     ctx.fillText("Game over", width / 2, height / 2);
 }
 
+const SOUND = {
+    eatAppleAudio: function() {
+        let eatApple = document.querySelector("#eat-apple");
+        eatApple.play();
+    },
+
+}
 class Block {
     constructor(col, row) {
         this.col = col;
@@ -64,7 +71,7 @@ class Snake {
     drawSnake() {
         for (let i = 0; i < this.parts.length; i++) {
             if (i === 0) {
-                this.parts[i].square('#510977');
+                this.parts[i].square('#D2A5FF');
             } else if (i % 2 === 0) {
                 this.parts[i].square('#ca6cfc');
             } else {
@@ -94,6 +101,7 @@ class Snake {
 
         if (newHead.equal(apple.position)) {
             score++;
+            SOUND.eatAppleAudio();
             apple.moveApple();
         } else {
             this.parts.pop();
@@ -133,7 +141,7 @@ let apple = new Apple();
 
 let intervalId = setInterval(function () {
     ctx.clearRect(0, 0, width, height);
-    // drawScore();
+    drawScore();
     serpent.moveSnake();
     serpent.drawSnake();
     apple.drawApple();

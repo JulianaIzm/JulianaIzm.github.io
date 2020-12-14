@@ -8,8 +8,14 @@ body {
     background-size: cover;
 
 }
+.show-score {
+    color: #510977;
+    border: 1px solid #510977;
+    padding: 5px 20px;
+    margin-right: 10px;
+}
 
 #canvas {
-    border: 2px solid #073603;
-    /* background-color: #0A3605;*/
+    /* border: 2px solid #073603; */
+    background-color: #0A3605;
 } 
