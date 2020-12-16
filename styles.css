@@ -1,20 +1,27 @@
 body {
     margin: 0 auto;
-    display: flex;
+    /* display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: center; */
     min-height: 100vh;
     background: url('images/jungles.jpg') no-repeat center;
     background-size: cover;
 
 }
-.show-score {
-    color: #510977;
-    border: 1px solid #510977;
-    padding: 5px 20px;
-    margin-right: 10px;
+.game {
+    display: block;
+    text-align: center;
 }
 
+#start {
+    background-color: #0A3605;
+    color: #fff;
+    border-radius: 5px;
+    border: none;
+    margin: 10px auto;
+    padding: 10px 30px;
+    font-size: 20px;
+}
 #canvas {
     /* border: 2px solid #073603; */
     background-color: #0A3605;

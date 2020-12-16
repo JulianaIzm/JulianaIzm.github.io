@@ -8,6 +8,7 @@ let blockSize = 10;
 let widthInBlocks = width / blockSize;
 let heightInBlocks = height / blockSize;
 let score = 0;
+let gameStart;
 
 function drawScore() {
     ctx.font = "20px Arial";
@@ -18,7 +19,7 @@ function drawScore() {
 }
 
 function gameOver() {
-    clearInterval(intervalId);
+    clearInterval(startGame);
     ctx.font = "60px Arial";
     ctx.fillStyle = "white";
     ctx.textAlign = "center";
@@ -27,10 +28,6 @@ function gameOver() {
 }
 
 const SOUND = {
-    gameAudio: function() {
-        let gameMusic = document.querySelector("#game-music");
-        gameMusic.play();
-    },
     eatAppleAudio: function() {
         let eatApple = document.querySelector("#eat-apple");
         eatApple.play();
@@ -38,7 +35,7 @@ const SOUND = {
     endGameAudio: function() {
         let endGame = document.querySelector("#game-over");
         endGame.play();
-    },
+    }
 };
 class Block {
     constructor(col, row) {
@@ -147,14 +144,40 @@ class Apple {
 let serpent = new Snake();
 let apple = new Apple();
 
-let intervalId = setInterval(function () {
-    ctx.clearRect(0, 0, width, height);
-    drawScore();
-    SOUND.gameAudio();
-    serpent.moveSnake();
-    serpent.drawSnake();
-    apple.drawApple();
-}, 100);
+// let intervalId = setInterval(function startGame() {
+//     ctx.clearRect(0, 0, width, height);
+//     drawScore();
+//     SOUND.gameAudio();
+//     serpent.moveSnake();
+//     serpent.drawSnake();
+//     apple.drawApple();
+// }, 100);
+
+
+// function startGame() {
+//     gameStart = requestAnimationFrame(startGame, 40);
+//     ctx.clearRect(0, 0, width, height);
+//     drawScore();
+//     // SOUND.gameAudio();
+//     serpent.moveSnake();
+//     serpent.drawSnake();
+//     apple.drawApple();
+// }
+
+let start = document.querySelector('#start'),
+add;
+
+function startGame() {
+    add = setInterval(function startGame() {
+            ctx.clearRect(0, 0, width, height);
+            drawScore();
+            serpent.moveSnake();
+            serpent.drawSnake();
+            apple.drawApple();
+        }, 100);
+}
+
+start.addEventListener("click", startGame);
 
 let directions = {
     37: "left",
