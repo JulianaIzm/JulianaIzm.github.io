@@ -13,7 +13,7 @@ body {
     text-align: center;
 }
 
-#start {
+#start, .buttonRestart {
     background-color: #0A3605;
     color: #fff;
     border-radius: 5px;

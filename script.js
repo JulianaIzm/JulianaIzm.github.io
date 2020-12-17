@@ -9,6 +9,10 @@ let widthInBlocks = width / blockSize;
 let heightInBlocks = height / blockSize;
 let score = 0;
 let gameStart;
+let divButton = document.querySelector('.btn-start');
+const gameAudio = new Audio('audio/play-game.mp3');
+const eatAppleAudio = new Audio('audio/apple-kus.mp3');
+const endGameAudio = new Audio('audio/game-over-audio.mp3');
 
 function drawScore() {
     ctx.font = "20px Arial";
@@ -27,16 +31,6 @@ function gameOver() {
     ctx.fillText("Game over", width / 2, height / 2);
 }
 
-const SOUND = {
-    eatAppleAudio: function() {
-        let eatApple = document.querySelector("#eat-apple");
-        eatApple.play();
-    },
-    endGameAudio: function() {
-        let endGame = document.querySelector("#game-over");
-        endGame.play();
-    }
-};
 class Block {
     constructor(col, row) {
         this.col = col;
@@ -98,15 +92,16 @@ class Snake {
             newHead = new Block(head.col, head.row - 1);
         }
         if(this.crash(newHead)) {
-            SOUND.endGameAudio();
             gameOver();
+            gameAudio.pause();
+            endGameAudio.play();
             return;
         }
         this.parts.unshift(newHead);
 
         if (newHead.equal(apple.position)) {
             score++;
-            SOUND.eatAppleAudio();
+            eatAppleAudio.play();
             apple.moveApple();
         } else {
             this.parts.pop();
@@ -144,40 +139,31 @@ class Apple {
 let serpent = new Snake();
 let apple = new Apple();
 
-// let intervalId = setInterval(function startGame() {
-//     ctx.clearRect(0, 0, width, height);
-//     drawScore();
-//     SOUND.gameAudio();
-//     serpent.moveSnake();
-//     serpent.drawSnake();
-//     apple.drawApple();
-// }, 100);
-
-
-// function startGame() {
-//     gameStart = requestAnimationFrame(startGame, 40);
-//     ctx.clearRect(0, 0, width, height);
-//     drawScore();
-//     // SOUND.gameAudio();
-//     serpent.moveSnake();
-//     serpent.drawSnake();
-//     apple.drawApple();
-// }
-
 let start = document.querySelector('#start'),
 add;
 
 function startGame() {
+    start.remove();
+    let buttonRestart = document.createElement('button');
+    buttonRestart.className = "buttonRestart";
+    divButton.appendChild(buttonRestart);
+    buttonRestart.textContent = "Начать заново";
+
+    buttonRestart.addEventListener('click', (e) => {
+    window.location.reload();
+});
     add = setInterval(function startGame() {
-            ctx.clearRect(0, 0, width, height);
-            drawScore();
-            serpent.moveSnake();
-            serpent.drawSnake();
-            apple.drawApple();
+        gameAudio.play();
+        ctx.clearRect(0, 0, width, height);
+        drawScore();
+        serpent.moveSnake();
+        serpent.drawSnake();
+        apple.drawApple();
         }, 100);
 }
 
 start.addEventListener("click", startGame);
+
 
 let directions = {
     37: "left",
