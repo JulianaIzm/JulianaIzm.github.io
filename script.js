@@ -14,7 +14,7 @@ const gameAudio = new Audio('audio/play-game.mp3');
 const eatAppleAudio = new Audio('audio/apple-kus.mp3');
 const endGameAudio = new Audio('audio/game-over-audio.mp3');
 
-function drawScore() {
+function drawScore() { //рисуем счет в верхгем левом углу поля
     ctx.font = "20px Arial";
     ctx.fillStyle = "white";
     ctx.textAlign = "left";
@@ -22,8 +22,8 @@ function drawScore() {
     ctx.fillText('Счет: ' + score, blockSize, blockSize);
 }
 
-function gameOver() {
-    clearInterval(startGame);
+function gameOver() { 
+    clearInterval(startGame); 
     ctx.font = "60px Arial";
     ctx.fillStyle = "white";
     ctx.textAlign = "center";
@@ -31,7 +31,7 @@ function gameOver() {
     ctx.fillText("Game over", width / 2, height / 2);
 }
 
-class Block {
+class Block { //класс, который описывает строительные кирпичики игры
     constructor(col, row) {
         this.col = col;
         this.row = row;
@@ -42,7 +42,7 @@ class Block {
     ctx.fillStyle = color;
     ctx.fillRect(x, y, blockSize, blockSize);
     }
-    round(color) {
+    round(color) { //рисуем кружочки
         let centerX = this.col * blockSize + blockSize / 2;
         let centerY = this.row * blockSize + blockSize / 2;
         let pi = Math.PI;
@@ -51,7 +51,7 @@ class Block {
         ctx.arc(centerX, centerY, blockSize/2, 0, 2*pi, true);
         ctx.fill();
     }
-    equal(otherBlock) {
+    equal(otherBlock) { //проверяем два объекта-ячейки в одной позиции
         return this.col === otherBlock.col && this.row === otherBlock.row;
     }
 }
@@ -63,8 +63,8 @@ class Snake {
             new Block(6, 4),
             new Block(5, 4)
         ];
-        this.direction = "right",
-        this.nextDirection = "right";
+        this.direction = "right", //изначально двигается вправо
+        this.nextDirection = "right"; //движение на следующем шаге анимации
     }
     drawSnake() {
         for (let i = 0; i < this.parts.length; i++) {
@@ -79,9 +79,9 @@ class Snake {
         }
     }
     moveSnake() {
-        let head = this.parts[0],
+        let head = this.parts[0], //создаем переменную для первого сегмента змеи
         newHead;
-        this.direction = this.nextDirection;
+        this.direction = this.nextDirection; //направление движения соответсвует нажатой стрелке
         if (this.direction === "right") {
             newHead = new Block(head.col + 1, head.row);
         } else if (this.direction === "down") {
@@ -91,20 +91,20 @@ class Snake {
         } else if (this.direction === "up") {
             newHead = new Block(head.col, head.row - 1);
         }
-        if(this.crash(newHead)) {
+        if(this.crash(newHead)) { //столкновение со стенами
             gameOver();
             gameAudio.pause();
             endGameAudio.play();
             return;
         }
-        this.parts.unshift(newHead);
+        this.parts.unshift(newHead); //новая голова в начале
 
-        if (newHead.equal(apple.position)) {
+        if (newHead.equal(apple.position)) { //ест яблоко
             score++;
             eatAppleAudio.play();
             apple.moveApple();
         } else {
-            this.parts.pop();
+            this.parts.pop(); 
         }
     }
     crash(head) {
@@ -114,22 +114,25 @@ class Snake {
         bottom = (head.row === heightInBlocks);
 
         let wallCrash = left || top || right || bottom;
-        return wallCrash;
+
+        let selfCrash = false;
+
+        return wallCrash || selfCrash;
     }
         
-    setDirection(newDirection) {
+    setDirection(newDirection) { //принимает от обработчика события строку и  использует ее, чтобы задать новое направление
         this.nextDirection = newDirection;
     }
 }
 
 class Apple {
-    constructor() {
+    constructor() { //задает ячейку для яблока
         this.position = new Block(20, 20);
     }
     drawApple() {
         this.position.round("red");
     }
-    moveApple() {
+    moveApple() { //рандомно перемещает яблоко
         let randomCol = Math.floor(Math.random() * widthInBlocks);
         let randomRow = Math.floor(Math.random() * heightInBlocks);
         this.position = new Block(randomCol, randomRow);
@@ -139,18 +142,18 @@ class Apple {
 let serpent = new Snake();
 let apple = new Apple();
 
-let start = document.querySelector('#start'),
+let startButton = document.querySelector('#start'),
 add;
 
 function startGame() {
-    start.remove();
+    startButton.remove();
     let buttonRestart = document.createElement('button');
     buttonRestart.className = "buttonRestart";
     divButton.appendChild(buttonRestart);
     buttonRestart.textContent = "Начать заново";
 
     buttonRestart.addEventListener('click', (e) => {
-    window.location.reload();
+    location.reload();
 });
     add = setInterval(function startGame() {
         gameAudio.play();
@@ -162,7 +165,7 @@ function startGame() {
         }, 100);
 }
 
-start.addEventListener("click", startGame);
+startButton.addEventListener("click", startGame);
 
 
 let directions = {
